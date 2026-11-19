@@ -7,7 +7,7 @@ baseUri = "http://localhost:58000/api/v1" #URL de PT
 
 # Llamada al API por el ticket
 headers = {"Content-Type": "application/json"} #Headers
-data = json.dumps({"username": "cisco", "password": "cisco123!"}) #Credenciales
+data = json.dumps({"username": "cisco", "password": "class"}) #Credenciales
 resp = requests.post(baseUri+"/ticket", data=data, headers=headers) #URL específica
 
 print("Status de Solicitud:")
@@ -31,6 +31,8 @@ print("\nDispositivos de Red:")
 host_list=[]
 i=0
 for item in result["response"]:
+    if not all(item.get(campo) for campo in ["hostname", "serialNumber", "softwareVersion"]):
+        continue
     i+=1
     host_list.append([i,item["hostname"],item["serialNumber"],item["softwareVersion"]])
     #print(item["hostname"]+" "+item["serialNumber"]+" "+item["softwareVersion"]) #Lista completa
@@ -48,6 +50,8 @@ print("\nHosts de la Red:")
 host_list=[]
 i=0
 for item in result["response"]:
+    if not all(item.get(campo) for campo in ["hostName", "hostType", "hostIp"]):
+        continue
     i+=1
     host_list.append([i,item["hostName"],item["hostType"],item["hostIp"]])
     #print(item["hostName"]+" "+item["hostType"]+" "+item["hostIp"]) #Lista completa
